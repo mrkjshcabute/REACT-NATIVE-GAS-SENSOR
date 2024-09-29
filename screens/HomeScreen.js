@@ -67,8 +67,8 @@ const HomeScreen = ({ navigation }) => {
         propsForBackgroundLines: {
             stroke: 'rgba(0, 0, 0, 0)',
         },
-        fillShadowGradient: 'rgba(154, 82, 255, 1)', 
-        fillShadowGradientOpacity: 0.2, 
+        fillShadowGradient: 'rgba(154, 82, 255, 1)',
+        fillShadowGradientOpacity: 0.2,
     };
 
     // Determine status based on the gas level value
@@ -98,39 +98,68 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.title}>Analytics</Text>
             </View>
 
-            {/* Gas Analytics Progress and Status */}
-            <View style={styles.progressContainer}>
-                <Svg height="300" width="300" viewBox="0 0 100 100">
-                    {/* Background Circle (70%) */}
-                    <Path
-                        d={describeArc(50, 50, radius, -126, 126)} // From -126° to 126° to represent 70% of a circle
-                        stroke="#d6d6d6"
-                        strokeWidth={strokeWidth}
-                        fill="none"
-                    />
-                    {/* Progress Arc (Dynamic for 70%) */}
-                    <Path
-                        d={describeArc(50, 50, radius, -126, -126 + arcLength)} // Calculate arc based on value
-                        stroke={statusColor}
-                        strokeWidth={strokeWidth}
-                        fill="none"
-                        strokeLinecap="round"
-                    />
-                </Svg>
 
-                {/* Percentage inside circle */}
-                <View style={styles.centerTextContainer}>
-                    <Text style={[styles.progressText, { color: statusColor }]}>{`${value}%`}</Text>
+            <View style={styles.wrapper}>
+                {/* MQ2 Gas Analytics Progress and Status */}
+                <View style={styles.progressContainer}>
+                    <Text style={[styles.statusText, { color: statusColor }]}>MQ2</Text>
+                    <Svg height="200" width="200" viewBox="0 0 100 100">
+                        {/* Background Circle (70%) */}
+                        <Path
+                            d={describeArc(50, 50, radius, -126, 126)} // From -126° to 126° to represent 70% of a circle
+                            stroke="#d6d6d6"
+                            strokeWidth={strokeWidth}
+                            fill="none"
+                        />
+                        {/* Progress Arc (Dynamic for 70%) */}
+                        <Path
+                            d={describeArc(50, 50, radius, -126, -126 + arcLength)} // Calculate arc based on value
+                            stroke={statusColor}
+                            strokeWidth={strokeWidth}
+                            fill="none"
+                            strokeLinecap="round"
+                        />
+                    </Svg>
+
+                    {/* Percentage inside circle */}
+                    <View style={styles.statusOverlay}>
+                        <Text style={[styles.progressText, { color: statusColor }]}>{`${value}%`}</Text>
+                        <Text style={[styles.statusText, { color: statusColor }]}>{status}</Text>
+                    </View>
                 </View>
 
-                <View style={styles.statusOverlay}>
-                    <Text style={[styles.statusText, { color: statusColor }]}>{status}</Text>
+                {/* MQ9 Gas Analytics Progress and Status */}
+                <View style={styles.progressContainer}>
+                    <Text style={[styles.statusText, { color: statusColor }]}>MQ9</Text>
+                    <Svg height="200" width="200" viewBox="0 0 100 100">
+                        {/* Background Circle (70%) */}
+                        <Path
+                            d={describeArc(50, 50, radius, -126, 126)} // From -126° to 126° to represent 70% of a circle
+                            stroke="#d6d6d6"
+                            strokeWidth={strokeWidth}
+                            fill="none"
+                        />
+                        {/* Progress Arc (Dynamic for 70%) */}
+                        <Path
+                            d={describeArc(50, 50, radius, -126, -126 + arcLength)} // Calculate arc based on value
+                            stroke={statusColor}
+                            strokeWidth={strokeWidth}
+                            fill="none"
+                            strokeLinecap="round"
+                        />
+                    </Svg>
+
+                    {/* Percentage inside circle */}
+                    <View style={styles.statusOverlay}>
+                        <Text style={[styles.progressText, { color: statusColor }]}>{`${value}%`}</Text>
+                        <Text style={[styles.statusText, { color: statusColor }]}>{status}</Text>
+                    </View>
                 </View>
             </View>
 
             {/* Line Chart */}
             <View style={styles.chartBox}>
-                <Text style={styles.chartLabel}>Overview</Text>
+                <Text style={styles.chartLabel}>Flame Sensor</Text>
                 <View style={styles.chartContainer}>
                     {data.length > 0 ? (
                         <LineChart
@@ -146,12 +175,18 @@ const HomeScreen = ({ navigation }) => {
                     )}
                 </View>
             </View>
-            
+
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    wrapper: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -164,19 +199,18 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 20,
         marginBottom: 50,
-        marginTop: 120,
+        marginTop: 30,
     },
     title: {
         fontSize: 18,
         flex: 1,
+        marginRight: 30,
         textAlign: 'center',
         fontWeight: 'bold',
     },
     progressContainer: {
-        position: 'relative',
-        width: 300,
-        height: 300,
-        marginBottom: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     centerTextContainer: {
         position: 'absolute',
@@ -191,8 +225,8 @@ const styles = StyleSheet.create({
     },
     statusOverlay: {
         position: 'absolute',
-        top: '70%',
-        left: '55%',
+        top: '50%',
+        left: '62%',
         transform: [{ translateX: -50 }, { translateY: -50 }],
     },
     statusText: {
@@ -203,7 +237,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#f0f4f8',
         bottom: '4%',
         width: '100%',
-        paddingBottom: 300,
+        paddingBottom: 190,
+        marginTop: 20,
         borderRadius: 40,
         // iOS shadow properties
         shadowColor: '#000',
@@ -212,6 +247,7 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         // Android elevation property
         elevation: 8,
+
     },
     chartContainer: {
         width: '100%',
